@@ -31,7 +31,7 @@ NAME	= ircserv
 ##***************##
 ### COMPILATION ###
 ##**************###
-CC		= gcc
+CC		=g++
 CFLAGS	= -Wall -Wextra -Werror #-fsanitize=address -g3
 CMLX	= -framework OpenGL -framework AppKit -g -lmlx -Lmlx
 
