@@ -32,14 +32,12 @@ NAME	= ircserv
 ### COMPILATION ###
 ##**************###
 CC		=g++
-CFLAGS	= -Wall -Wextra -Werror #-fsanitize=address -g3
-CMLX	= -framework OpenGL -framework AppKit -g -lmlx -Lmlx
+CFLAGS	= -Wall -Wextra -Werror
 
 ##*******************##
 ### DIRECTORY PATHS ###
 ##*******************##
 HEADER		= ./incl/ircserv.hpp
-MLX			= ./mlx
 OBJ_PATH	= ./objs
 SRC_PATH	= ./srcs
 
@@ -52,7 +50,7 @@ OBJS = $(addprefix $(OBJ_PATH)/,$(SOURCES:.cpp=.o))
 ##****************##
 ### SOURCE FILES ###
 ##****************##
-SOURCES	=	ircserv.cpp			\
+SOURCES	=	server.cpp			\
 
 
 ##*********##
@@ -61,26 +59,26 @@ SOURCES	=	ircserv.cpp			\
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.cpp $(HEADER)
 			@mkdir -p objs
-			@printf "$(ERASE)$(BLUE)$(UNDERLINE)Compiling:$(END)$(CYAN)$<"
+			@printf "$(BLUE)Compiling:$(CYAN)$<"
 			@${CC} ${CFLAGS} -c $< -o $@
 
 all:	${NAME}
 
 ${NAME}:	${OBJS}
 				@${CC} ${CFLAGS} ${OBJS} -o ${NAME}
-				@printf "\n$(GREEN)Successful compilation$(END)\n"
+				@printf "\n$(GREEN)Successful compilation\n"
 
 clean:
 		@rm -f ${OBJS}
-		@printf "\n$(BLUE)Object files cleaned\n$(DEF_COLOR)"
+		@printf "\n$(BLUE)Object files cleaned\n"
 
 fclean:	clean
 		@rm -f ${NAME}
-		@printf "\n$(CYAN)Executable files cleaned\n$(END)"
+		@printf "\n$(CYAN)Executable files cleaned\n"
 
 re:	fclean
 	@${MAKE} all
-	@printf "\n$(VIOLET)Cleaned and rebuilt everything\n$(END)"
+	@printf "\n$(VIOLET)Cleaned and rebuilt everything\n"
 
 sus:	all
 	@echo "$(IRED)           ⣠⣤⣤⣤⣤⣤⣶⣦⣤⣄⡀        $(END)"
