@@ -32,12 +32,12 @@ NAME	= ircserv
 ### COMPILATION ###
 ##**************###
 CC		=g++
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -std=c++98
 
 ##*******************##
 ### DIRECTORY PATHS ###
 ##*******************##
-HEADER		= ./incl/ircserv.hpp
+HEADER		= ./incl/irc.hpp
 OBJ_PATH	= ./objs
 SRC_PATH	= ./srcs
 
@@ -50,7 +50,11 @@ OBJS = $(addprefix $(OBJ_PATH)/,$(SOURCES:.cpp=.o))
 ##****************##
 ### SOURCE FILES ###
 ##****************##
-SOURCES	=	server.cpp			\
+SOURCES	=	utils.cpp \
+			main.cpp \
+			classes.cpp \
+			server_commands/*.cpp \
+			channel_commands/*.cpp \
 
 
 ##*********##

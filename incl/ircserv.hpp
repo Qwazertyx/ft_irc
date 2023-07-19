@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ircserv.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsedat <vsedat@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: vsedat <vsedat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 13:46:51 by vsedat            #+#    #+#             */
-/*   Updated: 2023/01/02 13:55:52 by vsedat           ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 14:03:33 by vsedat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include <cstdlib>
 # include <sstream>
 
+extern bool g_interrupt;
 
 enum State
 {
