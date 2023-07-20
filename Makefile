@@ -37,7 +37,7 @@ CFLAGS	= -Wall -Wextra -Werror -std=c++98
 ##*******************##
 ### DIRECTORY PATHS ###
 ##*******************##
-HEADER		= ./incl/irc.hpp
+HEADER		= ./incl/ircserv.hpp
 OBJ_PATH	= ./objs
 SRC_PATH	= ./srcs
 
@@ -53,23 +53,34 @@ OBJS = $(addprefix $(OBJ_PATH)/,$(SOURCES:.cpp=.o))
 SOURCES	=	utils.cpp \
 			main.cpp \
 			classes.cpp \
-			server_commands/*.cpp \
-			channel_commands/*.cpp \
-
+			commands/join.cpp \
+			commands/kick.cpp \
+			commands/list.cpp \
+			commands/mode.cpp \
+			commands/names.cpp \
+			commands/nickname.cpp \
+			commands/notice.cpp \
+			commands/operator.cpp \
+			commands/part.cpp \
+			commands/password.cpp \
+			commands/ping.cpp \
+			commands/private_message.cpp \
+			commands/topic.cpp \
+			commands/user.cpp \
 
 ##*********##
 ### RULES ###
 ##*********##
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.cpp $(HEADER)
-			@mkdir -p objs
-			@printf "$(BLUE)Compiling:$(CYAN)$<"
+			@mkdir -p objs/commands
+			@printf "$(BLUE)Compiling:$(CYAN)$<\n"
 			@${CC} ${CFLAGS} -c $< -o $@
 
 all:	${NAME}
 
 ${NAME}:	${OBJS}
-				@${CC} ${CFLAGS} ${OBJS} -o ${NAME}
+				@${CC} ${CFLAGS} ${SRCS} -o ${NAME}
 				@printf "\n$(GREEN)Successful compilation\n"
 
 clean:

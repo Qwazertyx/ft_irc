@@ -6,11 +6,20 @@
 /*   By: vsedat <vsedat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 12:35:36 by vsedat            #+#    #+#             */
-/*   Updated: 2023/06/27 13:20:55 by vsedat           ###   ########.fr       */
+/*   Updated: 2023/07/20 12:50:04 by vsedat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/ircserv.hpp"
+
+bool	g_interrupt = false;
+
+void	signalHandler(int const signal) 
+{
+	(void)signal;
+	g_interrupt = true;
+	std::cout << "\b\b";
+}
 
 int	parseport(char *ag, int &port) 
 {

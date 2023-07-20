@@ -1,8 +1,8 @@
-#include "irc.hpp"
+#include "../incl/ircserv.hpp"
 
 // Server Class
 
-Server::Server(int port, const String &pass)
+Server::Server(int port, const std::string &pass)
 	: _host("127.0.0.1"), _password(pass), _operPassword("operator's password"), _port(port) 
 {
 	_sock = createSocket();
@@ -38,7 +38,7 @@ int		Server::createSocket()
 
 void	Server::displayClient()
 {
-	String state;
+	std::string state;
 	size_t i = _clients.size();
 	std::cout << "Clients connected: " << i << std::endl;
 	for (size_t j = 0; j < i; j++)
@@ -106,9 +106,9 @@ void	Server::clientDisconnect(int fd)
 	std::cout << "Disconnection Successful" << std::endl;
 }
 
-String	Server::readMsg(int fd) 
+std::string	Server::readMsg(int fd) 
 {
-	String	msg;
+	std::string	msg;
 	char	buff[256];
 	bzero(buff, 256);
 	std::vector<Client>::iterator cl = findClientIt(fd);
@@ -147,16 +147,16 @@ void	Server::handleMessage(int fd)
 		std::cerr << e.what() << '\n';
 		return ;
 	}
-	for (std::vector<String>::iterator it = this->_cmd.begin(); it != this->_cmd.end(); it++)
+	for (std::vector<std::string>::iterator it = this->_cmd.begin(); it != this->_cmd.end(); it++)
 		parseCmd(*it, findClient(fd));
 	displayClient();
 }
 
-std::vector<String>	Server::splitCmd(String msg) 
+std::vector<std::string>	Server::splitCmd(std::string msg) 
 {
-	std::vector<String> cmd;
+	std::vector<std::string> cmd;
 	std::stringstream str(msg);
-	String tmp;
+	std::string tmp;
 	int i = 0;
 	if (msg == "\n")
 		return cmd;
@@ -168,26 +168,25 @@ std::vector<String>	Server::splitCmd(String msg)
 	return cmd;
 }
 
-void	Server::parseCmd(String str, Client &cl) 
+void	Server::parseCmd(std::string str, Client &cl) 
 {
-	String tmp;
-	std::vector<String>	args;
+	std::string tmp;
+	std::vector<std::string>	args;
 	std::stringstream ss(str);
 	std::getline(ss, tmp, ' ');
 
 	args.push_back(tmp);
   	std::cout << "Parse command : [" << tmp << "]" << std::endl;
 
-	std::string cmds[15] = {"PASSWORD", "NICKNAME", "OPERATOR", "USER", "PRIVATE MESSAGE", "JOIN", "KILL", "PING", "PART", "LIST", "NAMES", "TOPIC", "KICK", "MODE", "NOTICE"};
+	std::string cmds[14] = {"PASS", "NICK", "OPERATOR", "USER", "PRIVMSG", "JOIN", "PING", "PART", "LIST", "NAMES", "TOPIC", "KICK", "MODE", "NOTICE"};
 
-	int		(Server::*ptr[15])(std::vector<String> args, Client &cl) = {
+	int		(Server::*ptr[14])(std::vector<std::string> args, Client &cl) = {
 			&Server::cmdPass,
 			&Server::cmdNick,
 			&Server::cmdOper,
 			&Server::cmdUser,
 			&Server::cmdPrvMsg,
 			&Server::cmdJoin,
-			&Server::cmdKill,
 			&Server::cmdPing,
 			&Server::cmdPart,
             &Server::cmdList,
@@ -198,7 +197,7 @@ void	Server::parseCmd(String str, Client &cl)
 			&Server::cmdNotice,
 
 	};
-	for (int i =0; i <= 14; ++i)
+	for (int i =0; i <= 13; ++i)
 	{
 		if (tmp == cmds[i])
 		{
@@ -250,7 +249,7 @@ Client		&Server::findClient(int fd)
 	throw(std::out_of_range("Error while searching for user"));
 }
 
-Client		&Server::findClient(String nick)
+Client		&Server::findClient(std::string nick)
 {
 	for (unsigned int i = 0; i < _clients.size(); i++)
 	{
@@ -316,20 +315,20 @@ void    Server::eraseClientChannel(Client &cl)
 
 // Channel Class
 
-Channel::Channel(String Name) : _name(Name), _topic(), _fdOp(0), _limit(0), _password("") {}
+Channel::Channel(std::string Name) : _name(Name), _topic(), _fdOp(0), _limit(0), _password("") {}
 
 Channel::~Channel(){}
 
 std::vector<Client>		&Channel::getClients(){return _clients;}
-String					Channel::getName() const {return _name;}
-String					Channel::getTopic() const {return _topic;}
+std::string					Channel::getName() const {return _name;}
+std::string					Channel::getTopic() const {return _topic;}
 int						Channel::getFdOp() const {return _fdOp;}
 size_t     				Channel::getLimit() const {return _limit;}
-String					Channel::getPassword() const {return _password;}
+std::string					Channel::getPassword() const {return _password;}
 
-void					Channel::setTopic(String newTopic) {_topic = newTopic;}
+void					Channel::setTopic(std::string newTopic) {_topic = newTopic;}
 void					Channel::setFdOp(int fd) {_fdOp = fd;}
-void					Channel::setPassword(String pass) {_password = pass;}
+void					Channel::setPassword(std::string pass) {_password = pass;}
 void					Channel::setLimit(size_t limit) {_limit = limit;}
 void					Channel::addClient(Client &cl) {_clients.push_back(cl);}
 
@@ -399,16 +398,16 @@ Client::Client(int sockfd, std::string hostname) : _sockfd(sockfd), _hostname(ho
 
 Client::~Client() {}
 
-String  Client::getPrefix()
+std::string  Client::getPrefix()
 {
-    String prefix = ":" + _nickname + (_username.empty() ? "" : "!" + _username) + (_hostname.empty() ? "" : "@" + _hostname);
+    std::string prefix = ":" + _nickname + (_username.empty() ? "" : "!" + _username) + (_hostname.empty() ? "" : "@" + _hostname);
     return prefix;
 }
 
-void    Client::reply(String msg) 
+void    Client::reply(std::string msg) 
 {
-    String prefix = _nickname + (_username.empty() ? "" : "!" + _username) + (_hostname.empty() ? "" : "@" + _hostname);
-    String paquet = ":" + prefix + " " + msg + "\r\n";
+    std::string prefix = _nickname + (_username.empty() ? "" : "!" + _username) + (_hostname.empty() ? "" : "@" + _hostname);
+    std::string paquet = ":" + prefix + " " + msg + "\r\n";
     std::cout << "---> " << paquet << std::endl;
     if (send(_sockfd, paquet.c_str(), paquet.length(), 0) < 0)
         throw(std::out_of_range("Error while sending"));
@@ -427,19 +426,19 @@ void    Client::welcome()
 }
 
 int     Client::getFd() const {return _sockfd;}
-String  Client::getNickname() const {return _nickname;}
-String  Client::getUsername() const {return _username;}
-String  Client::getRealname() const {return _realname;}
-String  Client::getHostname() const {return _hostname;}
-String  Client::getMsg() const {return _msg;}
+std::string  Client::getNickname() const {return _nickname;}
+std::string  Client::getUsername() const {return _username;}
+std::string  Client::getRealname() const {return _realname;}
+std::string  Client::getHostname() const {return _hostname;}
+std::string  Client::getMsg() const {return _msg;}
 State	Client::getState() const {return _state;}
 bool	Client::getisoper() const {return _isoper;}
 
-void	Client::setNickname(String newName) {_nickname = newName;}
-void	Client::setUsername(String newName) {_username = newName;}
-void	Client::setRealname(String newName) {_realname = newName;}
-void	Client::setHostname(String newName) {_hostname = newName;}
-void	Client::setMsg(String newMsg) {_msg = newMsg;}
+void	Client::setNickname(std::string newName) {_nickname = newName;}
+void	Client::setUsername(std::string newName) {_username = newName;}
+void	Client::setRealname(std::string newName) {_realname = newName;}
+void	Client::setHostname(std::string newName) {_hostname = newName;}
+void	Client::setMsg(std::string newMsg) {_msg = newMsg;}
 void    Client::addMsg(std::string buff) 
 {
     _msg += buff;
