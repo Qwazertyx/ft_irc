@@ -30,7 +30,7 @@ int	Server::cmdKick(std::vector<std::string> args, Client &cl)
 	}
 	if (cl.getFd() != findChannel(args.at(1)).getFdOp())
 	{
-		cl.reply(ERROR_CHANNEL_OPERATOR_NEEDED(cl, args.at(1)));
+		cl.reply(errornotop(cl, args.at(1)));
 		return -1;
 	}
 	if (is_client_not_in_Channel(findChannel(args.at(1)), erasebr(args.at(2))) == false)

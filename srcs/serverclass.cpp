@@ -1,7 +1,5 @@
 #include "../incl/ircserv.hpp"
 
-// Server Class
-
 Server::Server(int port, const std::string &pass)
 	: _host("127.0.0.1"), _password(pass), _operPassword("operator's password"), _port(port) 
 {
@@ -178,9 +176,9 @@ void	Server::parseCmd(std::string str, Client &cl)
 	args.push_back(tmp);
   	std::cout << "Parse command : [" << tmp << "]" << std::endl;
 
-	std::string cmds[13] = {"PASS", "NICK", "OPERATOR", "USER", "PRIVMSG", "JOIN", "PING", "PART", "LIST", "NAMES", "TOPIC", "KICK", "MODE"};
+	std::string cmds[12] = {"PASS", "NICK", "USER", "PRIVMSG", "JOIN", "PING", "PART", "LIST", "NAMES", "TOPIC", "KICK", "MODE"};
 
-	int		(Server::*ptr[13])(std::vector<std::string> args, Client &cl) = {
+	int		(Server::*ptr[12])(std::vector<std::string> args, Client &cl) = {
 			&Server::cmdPass,
 			&Server::cmdNick,
 			&Server::cmdOper,
@@ -196,7 +194,7 @@ void	Server::parseCmd(std::string str, Client &cl)
 			&Server::cmdMode,
 
 	};
-	for (int i =0; i <= 12; ++i)
+	for (int i =0; i <= 11; ++i)
 	{
 		if (tmp == cmds[i])
 		{
@@ -309,142 +307,4 @@ void    Server::eraseClientChannel(Client &cl)
 			it++;
 	}
 	std::cout << "eraseClientChannel" << std::endl;
-}
-
-
-// Channel Class
-
-Channel::Channel(std::string Name) : _name(Name), _topic(), _fdOp(0), _limit(0), _password("") {}
-
-Channel::~Channel(){}
-
-std::vector<Client>		&Channel::getClients(){return _clients;}
-std::string					Channel::getName() const {return _name;}
-std::string					Channel::getTopic() const {return _topic;}
-int						Channel::getFdOp() const {return _fdOp;}
-size_t     				Channel::getLimit() const {return _limit;}
-std::string					Channel::getPassword() const {return _password;}
-
-void					Channel::setTopic(std::string newTopic) {_topic = newTopic;}
-void					Channel::setFdOp(int fd) {_fdOp = fd;}
-void					Channel::setPassword(std::string pass) {_password = pass;}
-void					Channel::setLimit(size_t limit) {_limit = limit;}
-void					Channel::addClient(Client &cl) {_clients.push_back(cl);}
-
-std::string     RPL_PART(std::string prefix, std::string name_chan) 
-{
-	return (prefix + " PART :" + name_chan);
-}
-
-void    Channel::eraseClient(Client &cl)
-{
-	std::vector<Client>::iterator   it;
-	for(it = _clients.begin(); it != _clients.end(); it++)
-	{
-		std::cout << it->getNickname() << "==" << cl.getNickname() << std::endl;
-		if (it->getFd() == cl.getFd())
-		{
-			std::cout << "erasing client" << std::endl;
-			broadcast(RPL_PART(cl.getPrefix(), _name));
-			_clients.erase(it);
-			return ;
-		}
-	}
-	std::cout << "not really erasing client" << _clients.size() << std::endl;
-}
-
-void	Channel::broadcast(std::string message)
-{
-	message += "\r\n";
-	std::cout << "----> " << message << std::endl;
-	for (unsigned int i = 0; i < _clients.size(); i++)
-	{
-		if (send(_clients[i].getFd(), message.c_str(), message.length(), 0) < 0)
-			throw std::out_of_range("error while broadcasting");
-	}
-}
-
-void	Channel::broadcast(std::string message, Client &cl)
-{
-	message += "\r\n";
-	std::cout << "----> "<< message << std::endl;
-	for (unsigned int i = 0; i < _clients.size(); i++)
-	{
-		if (cl.getFd() != _clients[i].getFd())
-		{
-			if (send(_clients[i].getFd(), message.c_str(), message.length(), 0) < 0)
-				throw std::out_of_range("error while broadcasting");
-		}
-	}
-}
-
-void	Channel::debug()
-{
-	for (unsigned int i = 0; i < _clients.size(); i++)
-	{
-		std::cout << "#client " << i << " " << _clients[i].getNickname() << std::endl;
-	}
-}
-
-
-// Client Class
-
-Client::Client(int sockfd, std::string hostname) : _sockfd(sockfd), _hostname(hostname), _isoper(false)
-{
-    _state = HANDSHAKE;
-    _msg = "";
-}
-
-Client::~Client() {}
-
-std::string  Client::getPrefix()
-{
-    std::string prefix = ":" + _nickname + (_username.empty() ? "" : "!" + _username) + (_hostname.empty() ? "" : "@" + _hostname);
-    return prefix;
-}
-
-void    Client::reply(std::string msg) 
-{
-    std::string prefix = _nickname + (_username.empty() ? "" : "!" + _username) + (_hostname.empty() ? "" : "@" + _hostname);
-    std::string paquet = ":" + prefix + " " + msg + "\r\n";
-    std::cout << "---> " << paquet << std::endl;
-    if (send(_sockfd, paquet.c_str(), paquet.length(), 0) < 0)
-        throw(std::out_of_range("Error while sending"));
-}
-
-void    Client::welcome() 
-{
-    if (_state != LOGIN || _nickname.empty() || _username.empty())
-    {
-        std::cout << "Waiting registration... " << _nickname << std::endl;
-        return ;
-    }
-    _state = REGISTERED;
-    reply("001 " + _nickname + " :Welcome " +_nickname +  " into our irc network");
-    std::cout << _nickname << " is registered" << std::endl;
-}
-
-int     Client::getFd() const {return _sockfd;}
-std::string  Client::getNickname() const {return _nickname;}
-std::string  Client::getUsername() const {return _username;}
-std::string  Client::getRealname() const {return _realname;}
-std::string  Client::getHostname() const {return _hostname;}
-std::string  Client::getMsg() const {return _msg;}
-State	Client::getState() const {return _state;}
-bool	Client::getisoper() const {return _isoper;}
-
-void	Client::setNickname(std::string newName) {_nickname = newName;}
-void	Client::setUsername(std::string newName) {_username = newName;}
-void	Client::setRealname(std::string newName) {_realname = newName;}
-void	Client::setHostname(std::string newName) {_hostname = newName;}
-void	Client::setMsg(std::string newMsg) {_msg = newMsg;}
-void    Client::addMsg(std::string buff) 
-{
-    _msg += buff;
-}
-void	Client::setisoper(bool isoper) {_isoper = isoper;}
-
-void  Client::setState(State new_state)
-{
-    _state = new_state;
 }

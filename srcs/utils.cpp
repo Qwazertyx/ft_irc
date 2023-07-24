@@ -19,7 +19,7 @@ std::string  errornotchannel(Client cl, std::string channel)
 	return ("403 " + cl.getNickname() + " " + channel +" :No such channel");
 }
 
-std::string  ERROR_CHANNEL_OPERATOR_NEEDED(Client cl, std::string channel) 
+std::string  errornotop(Client cl, std::string channel) 
 {
 	return ("482 " + cl.getNickname() + " " + channel + " :You're not channel operator");
 }

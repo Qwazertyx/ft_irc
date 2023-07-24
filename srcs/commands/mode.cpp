@@ -142,7 +142,7 @@ int Server::cmdMode(std::vector<std::string> args, Client &cl)
 	}
 	if (cl.getFd() != findChannel(args.at(1)).getFdOp())
 	{
-		cl.reply(ERROR_CHANNEL_OPERATOR_NEEDED(cl, args.at(1)));
+		cl.reply(errornotop(cl, args.at(1)));
 		return -1;
 	}
 	check_flag(args, cl, findChannel(args.at(1)));

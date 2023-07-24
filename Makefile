@@ -52,14 +52,15 @@ OBJS = $(addprefix $(OBJ_PATH)/,$(SOURCES:.cpp=.o))
 ##****************##
 SOURCES	=	utils.cpp \
 			main.cpp \
-			classes.cpp \
+			channelclass.cpp \
+			clientclass.cpp \
+			serverclass.cpp \
 			commands/join.cpp \
 			commands/kick.cpp \
 			commands/list.cpp \
 			commands/mode.cpp \
 			commands/names.cpp \
 			commands/nickname.cpp \
-			commands/operator.cpp \
 			commands/part.cpp \
 			commands/password.cpp \
 			commands/ping.cpp \

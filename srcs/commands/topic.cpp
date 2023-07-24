@@ -5,7 +5,7 @@ std::string  NO_SET_TOPIC(Client cl, std::string channel)
 	return ("331 " + cl.getNickname() + " " + channel +" :No topic is set");
 }
 
-std::string  ERROR_NOT_ON_CHANNEL(Client cl, std::string channel) 
+std::string  errornot_onchan(Client cl, std::string channel) 
 {
 	return ("442 " + cl.getNickname() + " " + channel + " :You're not on that channel");
 }
@@ -61,10 +61,10 @@ int		Server::cmdTopic(std::vector<std::string> args, Client &cl)
 				return (0);
 			}
 			else
-				cl.reply(ERROR_CHANNEL_OPERATOR_NEEDED(cl, chan_name));
+				cl.reply(errornotop(cl, chan_name));
 		}
 		else
-			cl.reply(ERROR_NOT_ON_CHANNEL(cl, chan_name));
+			cl.reply(errornot_onchan(cl, chan_name));
 	}
 	catch (const std::exception& e) 
 	{

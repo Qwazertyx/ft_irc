@@ -6,7 +6,7 @@
 /*   By: vsedat <vsedat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 13:46:51 by vsedat            #+#    #+#             */
-/*   Updated: 2023/07/24 10:50:15 by vsedat           ###   ########.fr       */
+/*   Updated: 2023/07/24 11:04:00 by vsedat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ class Server
 		int									cmdPing(std::vector<std::string> args, Client &cl);
 		int									cmdJoin(std::vector<std::string> args, Client &cl);
 		int									cmdOper(std::vector<std::string> args, Client &cl);
-		int									cmdKill(std::vector<std::string> args, Client &cl);
+		int									cmdKick(std::vector<std::string> args, Client &cl);
 		int									cmdPart(std::vector<std::string> args, Client &cl);
 		int									cmdList(std::vector<std::string> args, Client &cl);
 		int									cmdNames(std::vector<std::string> args, Client &cl);
@@ -211,7 +211,7 @@ class Server
 	std::string								erasebr(std::string str);
 	std::string								errorparam(Client &client, std::string cmd);
 	std::string								errornotchannel(Client cl, std::string channel);
-	std::string								ERROR_CHANNEL_OPERATOR_NEEDED(Client cl, std::string channel);
+	std::string								errornotop(Client cl, std::string channel);
 	std::string								RPL_TOPIC(Client cl, std::string channel, std::string topic);
 	
 	bool								isClientInChannel(Channel &chan, int fd);
