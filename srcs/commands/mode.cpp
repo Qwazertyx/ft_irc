@@ -75,14 +75,14 @@ int	setLimit(size_t limit, Channel &chan)
 int	check_flag(std::vector<std::string> args, Client &cl, Channel &chan) 
 {
 	int i = 0;
-	std::string flags[7] = {,"+o","-o","+l","-l","+k","-k","+i","-i"};
+	std::string flags[8] = {"+o","-o","+l","-l","+k","-k","+i","-i"};
 
 	if (args.size() < 3)	{
 		cl.reply(errorparam(cl, "Mode"));
 		return -1;
 	}
 	std::string flag = erasebr(args[2]);
-	while (flag != flags[i] && i < 7)
+	while (flag != flags[i] && i < 8)
 		++i;
 	std::cout << "IN CHECK_FLAG" << std::endl;
 	switch (i) {
@@ -116,7 +116,7 @@ int	check_flag(std::vector<std::string> args, Client &cl, Channel &chan)
 			std::cout << chan.getName() << " is now in invite only" << std::endl;
 			return (0);
 		case 7:
-			chan.setInviteOnly(flase);
+			chan.setInviteOnly(false);
 			std::cout << chan.getName() << " is no more in invite only" << std::endl;
 			return (0);
 		default:

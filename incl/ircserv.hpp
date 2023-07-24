@@ -120,6 +120,7 @@ class Channel
 
 	// Setter
 
+		void					setInviteOnly(bool inviteOnly);
 		void					setTopic(std::string newTopic);
 		void					setPassword(std::string pass);
 		void					setFdOp(int fd);
