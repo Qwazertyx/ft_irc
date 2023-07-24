@@ -1,6 +1,6 @@
 #include "../incl/ircserv.hpp"
 
-Channel::Channel(std::string Name) : _name(Name), _topic(), _fdOp(0), _limit(0), _password("") {}
+Channel::Channel(std::string Name) : _name(Name), _topic(), _fdOp(0), _limit(0), _password(""), _inviteOnly(false) {}
 
 Channel::~Channel(){}
 
@@ -15,21 +15,26 @@ void					Channel::setTopic(std::string newTopic) {_topic = newTopic;}
 void					Channel::setFdOp(int fd) {_fdOp = fd;}
 void					Channel::setPassword(std::string pass) {_password = pass;}
 void					Channel::setLimit(size_t limit) {_limit = limit;}
-void                    Channel::addClient(Client &cl)
+void					Channel::setInviteOnly(bool inviteOnly) {_inviteOnly = inviteOnly;}
+void					Channel::addClient(Client &cl) {_clients.push_back(cl);}
+
+int						Channel::canJoinInvite(Client &cl)
 {
-    if (_inviteOnly == true)
-    {
-        std::vector<Client>::iterator it;
-        for (it = _invitedClients.begin(); it != _invitedClients.end(); it++)
-        {
-            if (it->getFd() == cl.getFd())
-                _invitedClients.erase(it);
-            else
-                cl.reply("471 " + cl.getNickname() + " " + _name + " :Cannot join channel (invite Only)");
-            break;
-        }
-    }
-    _clients.push_back(cl);
+	if (_inviteOnly == true)
+	{
+		std::vector<Client>::iterator it;
+		for (it = _invitedClients.begin(); it != _invitedClients.end(); it++)
+		{
+			if (it->getFd() == cl.getFd())
+			{
+				_invitedClients.erase(it);
+				return (0);
+			}
+		}
+		return (-1);
+	}
+	else
+		return (0);
 }
 
 std::string     RPL_PART(std::string prefix, std::string name_chan) 

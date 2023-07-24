@@ -75,7 +75,7 @@ int	setLimit(size_t limit, Channel &chan)
 int	check_flag(std::vector<std::string> args, Client &cl, Channel &chan) 
 {
 	int i = 0;
-	std::string flags[7] = {"+O","+o","-o","+l","-l","+k","-k"};
+	std::string flags[7] = {,"+o","-o","+l","-l","+k","-k","+i","-i"};
 
 	if (args.size() < 3)	{
 		cl.reply(errorparam(cl, "Mode"));
@@ -87,32 +87,38 @@ int	check_flag(std::vector<std::string> args, Client &cl, Channel &chan)
 	std::cout << "IN CHECK_FLAG" << std::endl;
 	switch (i) {
 		case 0:
-			return(giveOprivilege(cl, args, chan));
-		case 1:
 			return (giveOprivilege(cl, args, chan));
-		case 2:
+		case 1:
 			cl.reply("482 " + cl.getNickname() + " " + chan.getName() + " :We need an operator");
 			return -1;
-		case 3:
+		case 2:
 			if (args.size() < 4) {
 				cl.reply(errorparam(cl, "Mode"));
 				return -1;
 			}
 			return (setLimit(parseLimit(args[3]), chan));
-		case 4:
+		case 3:
 			return (setLimit(0, chan));
-		case 5:
+		case 4:
 			if (args.size() < 4) {
 				cl.reply(errorparam(cl, "Mode"));
 				return -1;
 			}
 			return (setPassword(erasebr(args[3]), chan));
-		case 6:
+		case 5:
 			if (args.size() < 4) {
 				cl.reply(errorparam(cl, "Mode"));
 				return -1;
 			}
 			return (removePassword(erasebr(args[3]), chan));
+		case 6:
+			chan.setInviteOnly(true);
+			std::cout << chan.getName() << " is now in invite only" << std::endl;
+			return (0);
+		case 7:
+			chan.setInviteOnly(flase);
+			std::cout << chan.getName() << " is no more in invite only" << std::endl;
+			return (0);
 		default:
 			cl.reply("501 " + cl.getNickname() + " :Unknown Mode flag");
 			return -1;

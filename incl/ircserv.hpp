@@ -96,14 +96,14 @@ class Client
 class Channel 
 {
 	private:
-		std::string						_name;
-		std::string						_topic;
+		std::string					_name;
+		std::string					_topic;
 		int							_fdOp;
 		size_t						_limit;
-		std::string						_password;
+		std::string					_password;
 		std::vector<Client>			_clients;
-		std::vector<Client>            _invitedClients;
-		bool                        _inviteOnly;
+		std::vector<Client>			_invitedClients;
+		bool						_inviteOnly;
 
 	public:
 		Channel(std::string _name);
@@ -127,6 +127,7 @@ class Channel
 
 	// Channel functions
 	
+		int						canJoinInvite(Client &cl);
 		void					addClient(Client &client);
 		void					eraseClient(Client &cl);
 		void					broadcast(std::string message);

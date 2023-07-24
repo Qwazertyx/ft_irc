@@ -82,6 +82,11 @@ int         Server::cmdJoin(std::vector<std::string> params, Client &cl)
 			cl.reply("475 " + cl.getNickname() + " " + name + " :bad channel mask");
 			return -1;
 		}
+        if (chan->canJoinInvite(cl))
+        {
+            cl.reply("473 " + cl.getNickname() + " " + name + " :Cannot join channel (invite only)");
+            return -1;
+        }
         chan->addClient(cl);
         join(*chan, cl);
     }
