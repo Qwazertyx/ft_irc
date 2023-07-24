@@ -68,6 +68,7 @@ SOURCES	=	utils.cpp \
 			commands/topic.cpp \
 			commands/user.cpp \
 			commands/invite.cpp \
+			commands/notice.cpp \
 
 ##*********##
 ### RULES ###

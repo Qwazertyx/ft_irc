@@ -6,7 +6,7 @@
 /*   By: vsedat <vsedat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 13:46:51 by vsedat            #+#    #+#             */
-/*   Updated: 2023/07/24 15:30:05 by vsedat           ###   ########.fr       */
+/*   Updated: 2023/07/24 18:06:39 by vsedat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,7 @@ class Server
 		bool     							isChannel(std::string name);
 		Channel								&findChannel(std::string name);
 		std::vector<Channel>::iterator		findChannelIt(std::string name);
+		int 								chanNotice(std::vector<std::string> params, Client &cl);
 
 	// IRC Commands
 
@@ -219,6 +220,7 @@ class Server
 		int									cmdTopic(std::vector<std::string> args, Client &cl);
 		int									cmdInvite(std::vector<std::string> params, Client &cl);
 		int									cmdMode(std::vector<std::string> args, Client &cl);
+		int 								cmdNotice(std::vector<std::string> params, Client &cl);
 };
 
 // Utils.cpp
