@@ -75,22 +75,22 @@ int	setLimit(size_t limit, Channel &chan)
 int	check_flag(std::vector<std::string> args, Client &cl, Channel &chan) 
 {
 	int i = 0;
-	std::string flags[8] = {"+o","-o","+l","-l","+k","-k","+i","-i"};
+	std::string flags[10] = {"+o","-o","+l","-l","+k","-k","+i","-i","+t","-t"};
 
 	if (args.size() < 3)	{
 		cl.reply(errorparam(cl, "Mode"));
 		return -1;
 	}
 	std::string flag = erasebr(args[2]);
-	while (flag != flags[i] && i < 8)
+	while (flag != flags[i] && i < 10)
 		++i;
 	std::cout << "IN CHECK_FLAG" << std::endl;
 	switch (i) {
 		case 0:
 			return (giveOprivilege(cl, args, chan));
 		case 1:
-			cl.reply("482 " + cl.getNickname() + " " + chan.getName() + " :We need an operator");
-			return -1;
+			chan.setFdOp(0);
+			return 0;
 		case 2:
 			if (args.size() < 4) {
 				cl.reply(errorparam(cl, "Mode"));
@@ -114,11 +114,19 @@ int	check_flag(std::vector<std::string> args, Client &cl, Channel &chan)
 		case 6:
 			chan.setInviteOnly(true);
 			std::cout << chan.getName() << " is now in invite only" << std::endl;
-			return (0);
+			return 0;
 		case 7:
 			chan.setInviteOnly(false);
 			std::cout << chan.getName() << " is no more in invite only" << std::endl;
-			return (0);
+			return 0;
+		case 8:
+			chan.setTopicOperator(true);
+			std::cout << chan.getName() << " need operator privileges to change topic" << std::endl;
+			return 0;
+		case 9:
+			chan.setTopicOperator(false);
+			std::cout << chan.getName() << " don't need operator privileges to change topic" << std::endl;
+			return 0;
 		default:
 			cl.reply("501 " + cl.getNickname() + " :Unknown Mode flag");
 			return -1;

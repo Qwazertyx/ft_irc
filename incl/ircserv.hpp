@@ -6,7 +6,7 @@
 /*   By: vsedat <vsedat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 13:46:51 by vsedat            #+#    #+#             */
-/*   Updated: 2023/07/24 15:25:41 by vsedat           ###   ########.fr       */
+/*   Updated: 2023/07/24 15:30:05 by vsedat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ class Channel
 		std::vector<Client>			_clients;
 		std::vector<Client>			_invitedClients;
 		bool						_inviteOnly;
+		bool						_topicOperator;
 
 	public:
 		Channel(std::string _name);
@@ -113,6 +114,8 @@ class Channel
 		std::vector<Client>		&getClients();
 		std::vector<Client>		&getInvitedClients();
 		bool					getinviteonly();
+
+		bool					getTopicOperator() const;
 		int						getFdOp() const; 
 		size_t					getLimit() const;
 		std::string					getName() const;
@@ -121,6 +124,7 @@ class Channel
 
 	// Setter
 
+		void					setTopicOperator(bool topicOperator);
 		void					setInviteOnly(bool inviteOnly);
 		void					setTopic(std::string newTopic);
 		void					setPassword(std::string pass);

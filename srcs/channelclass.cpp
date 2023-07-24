@@ -1,12 +1,13 @@
 #include "../incl/ircserv.hpp"
 
-Channel::Channel(std::string Name) : _name(Name), _topic(), _fdOp(0), _limit(0), _password(""), _inviteOnly(false) {}
+Channel::Channel(std::string Name) : _name(Name), _topic(), _fdOp(0), _limit(0), _password(""), _inviteOnly(false), _topicOperator(true) {}
 
 Channel::~Channel(){}
 
 std::vector<Client>		&Channel::getInvitedClients() {return _invitedClients;}
-std::vector<Client>		&Channel::getClients() {return _clients;}
 bool					Channel::getinviteonly() {return _inviteOnly;}
+bool					Channel::getTopicOperator() const {return _topicOperator;}
+std::vector<Client>		&Channel::getClients(){return _clients;}
 std::string					Channel::getName() const {return _name;}
 std::string					Channel::getTopic() const {return _topic;}
 int						Channel::getFdOp() const {return _fdOp;}
@@ -18,6 +19,7 @@ void					Channel::setFdOp(int fd) {_fdOp = fd;}
 void					Channel::setPassword(std::string pass) {_password = pass;}
 void					Channel::setLimit(size_t limit) {_limit = limit;}
 void					Channel::setInviteOnly(bool inviteOnly) {_inviteOnly = inviteOnly;}
+void					Channel::setTopicOperator(bool topicOperator) {_topicOperator = topicOperator;}
 void					Channel::addClient(Client &cl) {_clients.push_back(cl);}
 void					Channel::addInvited(Client &cl) {_invitedClients.push_back(cl);}
 
