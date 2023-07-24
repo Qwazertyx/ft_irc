@@ -9,12 +9,12 @@ std::string	erasebr(std::string str)
 	return str;
 }
 
-std::string	ERROR_NEED_MORE_PARAMETERS(Client &client, std::string cmd) 
+std::string	errorparam(Client &client, std::string cmd) 
 {
 	return ("461 " + client.getNickname() + " " + cmd + " :Not enough parameters");
 }
 
-std::string  ERROR_NO_SUCH_CHANNEL_EXISTS(Client cl, std::string channel) 
+std::string  errornotchannel(Client cl, std::string channel) 
 {
 	return ("403 " + cl.getNickname() + " " + channel +" :No such channel");
 }

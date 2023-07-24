@@ -32,13 +32,13 @@ int		Server::cmdTopic(std::vector<std::string> args, Client &cl)
 {
 	if (args.size() < 2)
 	{
-		cl.reply(ERROR_NEED_MORE_PARAMETERS(cl, "Topic"));
+		cl.reply(errorparam(cl, "Topic"));
 		return -1;
 	}
 	std::string chan_name = erasebr(args[1]);
 	if (chan_name.empty())
 	{
-		cl.reply(ERROR_NEED_MORE_PARAMETERS(cl, "Topic"));
+		cl.reply(errorparam(cl, "Topic"));
 		return (-1);
 	}
 	try 
@@ -68,7 +68,7 @@ int		Server::cmdTopic(std::vector<std::string> args, Client &cl)
 	}
 	catch (const std::exception& e) 
 	{
-		cl.reply(ERROR_NO_SUCH_CHANNEL_EXISTS(cl, chan_name));
+		cl.reply(errornotchannel(cl, chan_name));
 	}
 	return (-1);
 }

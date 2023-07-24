@@ -6,7 +6,7 @@
 /*   By: vsedat <vsedat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 13:46:51 by vsedat            #+#    #+#             */
-/*   Updated: 2023/07/19 14:03:33 by vsedat           ###   ########.fr       */
+/*   Updated: 2023/07/24 10:50:15 by vsedat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,6 @@ class Server
 	// Server Utils
 
 		int									chanMessage(std::vector<std::string> params, Client &cl);
-		int									chanNotice(std::vector<std::string> params, Client &cl);
 		bool								already_used(std::string name, Client cl);
 
 		Client								&findClient(int fd);
@@ -204,16 +203,14 @@ class Server
 		int									cmdList(std::vector<std::string> args, Client &cl);
 		int									cmdNames(std::vector<std::string> args, Client &cl);
 		int									cmdTopic(std::vector<std::string> args, Client &cl);
-		int									cmdKick(std::vector<std::string> args, Client &cl);
-		int									cmdNotice(std::vector<std::string> args, Client &cl);
 		int									cmdMode(std::vector<std::string> args, Client &cl);
 };
 
 // Utils.cpp
 
 	std::string								erasebr(std::string str);
-	std::string								ERROR_NEED_MORE_PARAMETERS(Client &client, std::string cmd);
-	std::string								ERROR_NO_SUCH_CHANNEL_EXISTS(Client cl, std::string channel);
+	std::string								errorparam(Client &client, std::string cmd);
+	std::string								errornotchannel(Client cl, std::string channel);
 	std::string								ERROR_CHANNEL_OPERATOR_NEEDED(Client cl, std::string channel);
 	std::string								RPL_TOPIC(Client cl, std::string channel, std::string topic);
 	

@@ -7,7 +7,7 @@ int Server::cmdUser(std::vector<std::string> args, Client &cl)
 	std::string cmd = args.at(0);
 	if (args.size() < 5)
 	{
-		cl.reply(ERROR_NEED_MORE_PARAMETERS(cl, "User"));
+		cl.reply(errorparam(cl, "User"));
 		return -1;
 	}
 	else if (cl.getUsername() == args.at(1))

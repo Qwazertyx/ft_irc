@@ -7,7 +7,7 @@ int	giveOprivilege(Client &cl, std::vector<std::string> args, Channel &chan)
 	std::cout << "HERE" << std::endl;
 	if (args.size() < 4) 
 	{
-		cl.reply(ERROR_NEED_MORE_PARAMETERS(cl, "Mode"));
+		cl.reply(errorparam(cl, "Mode"));
 		return -1;
 	}
 	for (; i < chan.getClients().size(); i++)
@@ -78,7 +78,7 @@ int	check_flag(std::vector<std::string> args, Client &cl, Channel &chan)
 	std::string flags[7] = {"+O","+o","-o","+l","-l","+k","-k"};
 
 	if (args.size() < 3)	{
-		cl.reply(ERROR_NEED_MORE_PARAMETERS(cl, "Mode"));
+		cl.reply(errorparam(cl, "Mode"));
 		return -1;
 	}
 	std::string flag = erasebr(args[2]);
@@ -95,7 +95,7 @@ int	check_flag(std::vector<std::string> args, Client &cl, Channel &chan)
 			return -1;
 		case 3:
 			if (args.size() < 4) {
-				cl.reply(ERROR_NEED_MORE_PARAMETERS(cl, "Mode"));
+				cl.reply(errorparam(cl, "Mode"));
 				return -1;
 			}
 			return (setLimit(parseLimit(args[3]), chan));
@@ -103,13 +103,13 @@ int	check_flag(std::vector<std::string> args, Client &cl, Channel &chan)
 			return (setLimit(0, chan));
 		case 5:
 			if (args.size() < 4) {
-				cl.reply(ERROR_NEED_MORE_PARAMETERS(cl, "Mode"));
+				cl.reply(errorparam(cl, "Mode"));
 				return -1;
 			}
 			return (setPassword(erasebr(args[3]), chan));
 		case 6:
 			if (args.size() < 4) {
-				cl.reply(ERROR_NEED_MORE_PARAMETERS(cl, "Mode"));
+				cl.reply(errorparam(cl, "Mode"));
 				return -1;
 			}
 			return (removePassword(erasebr(args[3]), chan));
@@ -130,14 +130,14 @@ int Server::cmdMode(std::vector<std::string> args, Client &cl)
 
 	if (args.size() < 2)
 	{
-		cl.reply(ERROR_NEED_MORE_PARAMETERS(cl, "Mode"));
+		cl.reply(errorparam(cl, "Mode"));
 		return -1;
 	}
 	if (isChannel(args.at(1)) == false)
 	{
 		if (erasebr(args[1]).at(0) != '#')
 			return -1;
-		cl.reply(ERROR_NO_SUCH_CHANNEL_EXISTS(cl, erasebr(args[1])));
+		cl.reply(errornotchannel(cl, erasebr(args[1])));
 		return -1;
 	}
 	if (cl.getFd() != findChannel(args.at(1)).getFdOp())

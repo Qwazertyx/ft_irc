@@ -46,7 +46,7 @@ int         Server::cmdJoin(std::vector<std::string> params, Client &cl)
     }
     if (params.size() < 2)
     {
-        cl.reply(ERROR_NEED_MORE_PARAMETERS(cl, "Join"));
+        cl.reply(errorparam(cl, "Join"));
         return -1;
     }
     std::string name = erasebr(params[1]);

@@ -59,7 +59,6 @@ SOURCES	=	utils.cpp \
 			commands/mode.cpp \
 			commands/names.cpp \
 			commands/nickname.cpp \
-			commands/notice.cpp \
 			commands/operator.cpp \
 			commands/part.cpp \
 			commands/password.cpp \

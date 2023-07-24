@@ -25,7 +25,7 @@ int Server::cmdPass(std::vector<std::string> pass, Client &cl)
 {
 	if (pass.size() < 2)
 	{
-		cl.reply(ERROR_NEED_MORE_PARAMETERS(cl, "Password"));
+		cl.reply(errorparam(cl, "Password"));
 		return -1;
 	}
 	std::string mdp = erasebr(pass[1]);
