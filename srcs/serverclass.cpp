@@ -256,6 +256,19 @@ Client		&Server::findClient(std::string nick)
 	throw(std::out_of_range("Error while searching for user"));
 }
 
+std::vector<Client>::iterator	Server::findClientIt(std::string nick)
+{
+	std::vector<Client>::iterator ret = _clients.begin();
+	std::vector<Client>::iterator end = _clients.end();
+	while (ret != end)
+	{
+		if (ret->getNickname() == nick)
+			return (ret);
+		ret++;
+	}
+	throw(std::out_of_range("Error while searching for user"));
+}
+
 std::vector<Client>::iterator	Server::findClientIt(int fd)
 {
 	std::vector<Client>::iterator ret = _clients.begin();

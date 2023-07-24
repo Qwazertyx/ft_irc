@@ -133,6 +133,7 @@ class Channel
 
 	// Channel functions
 	
+		void					printInvited();
 		int						isInvited(Client &cl);
 		int						isInside(Client &cl);
 		int						canJoinInvite(Client &cl);
@@ -195,6 +196,7 @@ class Server
 		Client								&findClient(int fd);
 		Client								&findClient(std::string nickname);
 		std::vector<Client>::iterator		findClientIt(int fd);
+		std::vector<Client>::iterator		findClientIt(std::string nickname);
 		
 
 		bool     							isChannel(std::string name);

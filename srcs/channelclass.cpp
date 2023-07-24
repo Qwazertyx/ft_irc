@@ -23,12 +23,24 @@ void					Channel::setTopicOperator(bool topicOperator) {_topicOperator = topicOp
 void					Channel::addClient(Client &cl) {_clients.push_back(cl);}
 void					Channel::addInvited(Client &cl) {_invitedClients.push_back(cl);}
 
+void					Channel::printInvited()
+{
+	std::vector<Client>::iterator it = _invitedClients.begin();
+	std::cout << "========================================" << std::endl;
+	while (it != _invitedClients.end())
+	{
+		std::cout << it->getNickname() << " \n";
+		it++;
+	}
+	std::cout << "========================================" << std::endl;
+}
+
 int						Channel::isInside(Client &cl)
 {
 	std::vector<Client>::iterator it = _clients.begin();
 	while (it != _clients.end())
 	{
-		if (it->getFd() == cl.getFd())
+		if (it->getNickname() == cl.getNickname())
 			return 0;
 		it++;
 	}
@@ -40,7 +52,7 @@ int						Channel::isInvited(Client &cl)
 	std::vector<Client>::iterator it = _invitedClients.begin();
 	while (it != _invitedClients.end())
 	{
-		if (it->getFd() == cl.getFd())
+		if (it->getNickname() == cl.getNickname())
 			return 0;
 		it++;
 	}
@@ -51,14 +63,15 @@ int						Channel::canJoinInvite(Client &cl)
 {
 	if (_inviteOnly == true)
 	{
-		std::vector<Client>::iterator it;
-		for (it = _invitedClients.begin(); it != _invitedClients.end(); it++)
+		std::vector<Client>::iterator it = _invitedClients.begin();
+		while (it != _invitedClients.end())
 		{
-			if (it->getFd() == cl.getFd())
+			if (it->getNickname() == cl.getNickname())
 			{
 				_invitedClients.erase(it);
 				return (0);
 			}
+			it++;
 		}
 		return (-1);
 	}
