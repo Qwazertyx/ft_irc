@@ -23,12 +23,15 @@ int	Server::cmdNames(std::vector<std::string> args, Client &cl)
 					size_t x = 0;
 					for (; x < _channels.at(j).getClients().size() - 1; x++)
 					{
-						if (cl.getFd() == _channels.at(i).getFdOp())
+						if (_channels.at(i).getClients().at(x).getFd() == _channels.at(i).getFdOp())
 							str += "@" + _channels.at(j).getClients().at(x).getNickname() + " ";
 						else
 							str += _channels.at(j).getClients().at(x).getNickname() + " ";
 					}
-					str += _channels.at(j).getClients().at(x).getNickname();
+					if (_channels.at(i).getClients().at(x).getFd() == _channels.at(i).getFdOp())
+						str += "@" + _channels.at(j).getClients().at(x).getNickname() + " ";
+					else
+						str += _channels.at(j).getClients().at(x).getNickname() + " ";
 					cl.reply("353 " + cl.getNickname() + " = " + _channels.at(j).getName() + " :" + str);
 					str.clear();
 					cl.reply("366 " + cl.getNickname() + " " + _channels.at(j).getName() + " :End of /Names list");

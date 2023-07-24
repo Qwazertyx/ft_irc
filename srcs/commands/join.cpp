@@ -79,7 +79,7 @@ int         Server::cmdJoin(std::vector<std::string> params, Client &cl)
 		}
 		if (findChannel(name).getPassword() != "" && params.size() < 3)
 		{
-			cl.reply("475 " + cl.getNickname() + " " + name + " :bad channel mask");
+			cl.reply("475 " + cl.getNickname() + " " + name + " :this channel needs a password to be joined");
 			return -1;
 		}
         if (chan->canJoinInvite(cl))

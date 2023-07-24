@@ -54,7 +54,7 @@ int		Server::cmdTopic(std::vector<std::string> args, Client &cl)
 					cl.reply(RPL_TOPIC(cl, chan_name, chan->getTopic()));
 				return (0);
 			}
-			else if (is_operator_in_Channel(cl, *chan))
+			else if (is_operator_in_Channel(cl, *chan) || chan->getTopicOperator() == false)
 			{
 				chan->setTopic(getTopicStr(args));
 				chan->broadcast(RPL_TOPIC(cl, chan_name, chan->getTopic()));

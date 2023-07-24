@@ -104,6 +104,7 @@ class Channel
 		std::vector<Client>			_clients;
 		std::vector<Client>			_invitedClients;
 		bool						_inviteOnly;
+		bool						_topicOperator;
 
 	public:
 		Channel(std::string _name);
@@ -111,6 +112,7 @@ class Channel
 
 	// Getter
 
+		bool					getTopicOperator() const;
 		int						getFdOp() const; 
 		size_t					getLimit() const;
 		std::string					getName() const;
@@ -120,6 +122,7 @@ class Channel
 
 	// Setter
 
+		void					setTopicOperator(bool topicOperator);
 		void					setInviteOnly(bool inviteOnly);
 		void					setTopic(std::string newTopic);
 		void					setPassword(std::string pass);
