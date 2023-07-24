@@ -6,7 +6,7 @@
 /*   By: vsedat <vsedat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 13:46:51 by vsedat            #+#    #+#             */
-/*   Updated: 2023/07/24 11:04:00 by vsedat           ###   ########.fr       */
+/*   Updated: 2023/07/24 11:34:44 by vsedat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ class Channel
 		size_t						_limit;
 		std::string						_password;
 		std::vector<Client>			_clients;
+		std::vector<Client>            _invitedClients;
+		bool                        _inviteOnly;
 
 	public:
 		Channel(std::string _name);
