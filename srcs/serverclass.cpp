@@ -181,7 +181,6 @@ void	Server::parseCmd(std::string str, Client &cl)
 	int		(Server::*ptr[12])(std::vector<std::string> args, Client &cl) = {
 			&Server::cmdPass,
 			&Server::cmdNick,
-			&Server::cmdOper,
 			&Server::cmdUser,
 			&Server::cmdPrvMsg,
 			&Server::cmdJoin,
