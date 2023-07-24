@@ -67,6 +67,7 @@ SOURCES	=	utils.cpp \
 			commands/private_message.cpp \
 			commands/topic.cpp \
 			commands/user.cpp \
+			commands/invite.cpp \
 
 ##*********##
 ### RULES ###

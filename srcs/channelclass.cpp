@@ -4,7 +4,9 @@ Channel::Channel(std::string Name) : _name(Name), _topic(), _fdOp(0), _limit(0),
 
 Channel::~Channel(){}
 
-std::vector<Client>		&Channel::getClients(){return _clients;}
+std::vector<Client>		&Channel::getInvitedClients() {return _invitedClients;}
+std::vector<Client>		&Channel::getClients() {return _clients;}
+bool					Channel::getinviteonly() {return _inviteOnly;}
 std::string					Channel::getName() const {return _name;}
 std::string					Channel::getTopic() const {return _topic;}
 int						Channel::getFdOp() const {return _fdOp;}
@@ -17,6 +19,31 @@ void					Channel::setPassword(std::string pass) {_password = pass;}
 void					Channel::setLimit(size_t limit) {_limit = limit;}
 void					Channel::setInviteOnly(bool inviteOnly) {_inviteOnly = inviteOnly;}
 void					Channel::addClient(Client &cl) {_clients.push_back(cl);}
+void					Channel::addInvited(Client &cl) {_invitedClients.push_back(cl);}
+
+int						Channel::isInside(Client &cl)
+{
+	std::vector<Client>::iterator it = _clients.begin();
+	while (it != _clients.end())
+	{
+		if (it->getFd() == cl.getFd())
+			return 0;
+		it++;
+	}
+	return -1;
+}
+
+int						Channel::isInvited(Client &cl)
+{
+	std::vector<Client>::iterator it = _invitedClients.begin();
+	while (it != _invitedClients.end())
+	{
+		if (it->getFd() == cl.getFd())
+			return 0;
+		it++;
+	}
+	return -1;
+}
 
 int						Channel::canJoinInvite(Client &cl)
 {

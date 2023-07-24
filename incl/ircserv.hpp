@@ -6,7 +6,7 @@
 /*   By: vsedat <vsedat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 13:46:51 by vsedat            #+#    #+#             */
-/*   Updated: 2023/07/24 11:34:44 by vsedat           ###   ########.fr       */
+/*   Updated: 2023/07/24 15:25:41 by vsedat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,13 +110,14 @@ class Channel
 		~Channel();
 
 	// Getter
-
+		std::vector<Client>		&getClients();
+		std::vector<Client>		&getInvitedClients();
+		bool					getinviteonly();
 		int						getFdOp() const; 
 		size_t					getLimit() const;
 		std::string					getName() const;
 		std::string					getTopic() const;
 		std::string					getPassword() const;
-		std::vector<Client>		&getClients();
 
 	// Setter
 
@@ -128,8 +129,11 @@ class Channel
 
 	// Channel functions
 	
+		int						isInvited(Client &cl);
+		int						isInside(Client &cl);
 		int						canJoinInvite(Client &cl);
 		void					addClient(Client &client);
+		void					addInvited(Client &cl);
 		void					eraseClient(Client &cl);
 		void					broadcast(std::string message);
 		void					broadcast(std::string message, Client &cl);
@@ -207,6 +211,7 @@ class Server
 		int									cmdList(std::vector<std::string> args, Client &cl);
 		int									cmdNames(std::vector<std::string> args, Client &cl);
 		int									cmdTopic(std::vector<std::string> args, Client &cl);
+		int									cmdInvite(std::vector<std::string> params, Client &cl);
 		int									cmdMode(std::vector<std::string> args, Client &cl);
 };
 

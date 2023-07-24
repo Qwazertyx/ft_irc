@@ -37,7 +37,7 @@ int Server::chanMessage(std::vector<std::string> params, Client &cl)
         if (isClientInChannel(*chan, cl.getFd()))
             chan->broadcast(RPL_PRIVMSG(cl, params[1], message), cl);
         else
-            cl.reply("404 " + cl.getNickname() + " your not in the channel " + chan->getName());
+            cl.reply("404 " + cl.getNickname() + " you are not in the channel " + chan->getName());
     }
     catch(const std::exception& e)
     {
