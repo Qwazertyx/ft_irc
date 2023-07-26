@@ -1,6 +1,5 @@
 #include "../../incl/ircserv.hpp"
 
-// USER NICK PASS
 int Server::cmdUser(std::vector<std::string> args, Client &cl) 
 {
 	std::string tmp;

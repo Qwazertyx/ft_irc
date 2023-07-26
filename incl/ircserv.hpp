@@ -6,7 +6,7 @@
 /*   By: vsedat <vsedat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 13:46:51 by vsedat            #+#    #+#             */
-/*   Updated: 2023/07/24 18:06:39 by vsedat           ###   ########.fr       */
+/*   Updated: 2023/07/25 13:00:05 by vsedat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,8 @@ class Client
 		Client(int fd, std::string host);
 		~Client();
 
-	// Client functions
-
 		void		reply(std::string msg);
 		void		welcome();
-
-	// Getter functions
 
 		int			getFd() const;
 		std::string		getNickname() const;
@@ -79,7 +75,6 @@ class Client
 		State		getState() const;
 		bool		getisoper() const;
 
-	// Setter functions
 	
 		void		setNickname(std::string newName);
 		void		setUsername(std::string newName);
@@ -110,7 +105,6 @@ class Channel
 		Channel(std::string _name);
 		~Channel();
 
-	// Getter
 		std::vector<Client>		&getClients();
 		std::vector<Client>		&getInvitedClients();
 		bool					getinviteonly();
@@ -122,7 +116,6 @@ class Channel
 		std::string					getTopic() const;
 		std::string					getPassword() const;
 
-	// Setter
 
 		void					setTopicOperator(bool topicOperator);
 		void					setInviteOnly(bool inviteOnly);
@@ -131,7 +124,6 @@ class Channel
 		void					setFdOp(int fd);
 		void					setLimit(size_t limit);
 
-	// Channel functions
 	
 		void					printInvited();
 		int						isInvited(Client &cl);
@@ -165,30 +157,23 @@ class Server
 		Server(int port, const std::string &password);
 		~Server();
 
-	// Server Init
-
 		int									createSocket();
 		void								launch();
 
-	// Server Display
 
 		void								handleMessage(int fd);
 		void								displayClient();
-
-	// Server Receipt 
 
 		std::vector<std::string>					splitCmd(std::string msg);
 		void								parseCmd(std::string str, Client &cl);
 		std::string								readMsg(int fd);
 
-	// Manage Clients
 
 		void								newClient();
 		void								eraseClient(int fd);
 		void								eraseClientChannel(Client &cl);
 		void								clientDisconnect(int fd);
 
-	// Server Utils
 
 		int									chanMessage(std::vector<std::string> params, Client &cl);
 		bool								already_used(std::string name, Client cl);
@@ -204,7 +189,6 @@ class Server
 		std::vector<Channel>::iterator		findChannelIt(std::string name);
 		int 								chanNotice(std::vector<std::string> params, Client &cl);
 
-	// IRC Commands
 
 		int									cmdPass(std::vector<std::string> pass, Client &cl);
 		int									cmdNick(std::vector<std::string> pass, Client &cl);
@@ -223,7 +207,6 @@ class Server
 		int 								cmdNotice(std::vector<std::string> params, Client &cl);
 };
 
-// Utils.cpp
 
 	std::string								erasebr(std::string str);
 	std::string								errorparam(Client &client, std::string cmd);

@@ -6,7 +6,7 @@
 /*   By: vsedat <vsedat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 12:35:36 by vsedat            #+#    #+#             */
-/*   Updated: 2023/07/20 12:50:04 by vsedat           ###   ########.fr       */
+/*   Updated: 2023/07/25 12:58:40 by vsedat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	parseport(char *ag, int &port)
 
 int main(int ac, char **av)
 {
-	// PORT RANGE: 0 to 65535
 	int	port;
 	if (ac != 3)
 	{

@@ -52,9 +52,9 @@ OBJS = $(addprefix $(OBJ_PATH)/,$(SOURCES:.cpp=.o))
 ##****************##
 SOURCES	=	utils.cpp \
 			main.cpp \
-			channelclass.cpp \
-			clientclass.cpp \
-			serverclass.cpp \
+			channel.cpp \
+			client.cpp \
+			server.cpp \
 			commands/join.cpp \
 			commands/kick.cpp \
 			commands/list.cpp \
@@ -82,7 +82,7 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.cpp $(HEADER)
 all:	${NAME}
 
 ${NAME}:	${OBJS}
-				@${CC} ${CFLAGS} ${SRCS} -o ${NAME}
+				${CC} ${CFLAGS} ${OBJS} -o ${NAME}
 				@printf "\n$(GREEN)Successful compilation\n"
 
 clean:
