@@ -115,6 +115,7 @@ class Channel
 		std::string					getName() const;
 		std::string					getTopic() const;
 		std::string					getPassword() const;
+		std::string				getAllClients() const;
 
 
 		void					setTopicOperator(bool topicOperator);
@@ -162,6 +163,7 @@ class Server
 
 
 		void								handleMessage(int fd);
+		int									sendMessage(int fd, std::string msg);
 		void								displayClient();
 
 		std::vector<std::string>					splitCmd(std::string msg);

@@ -322,3 +322,19 @@ void    Server::eraseClientChannel(Client &cl)
 	}
 	std::cout << "eraseClientChannel" << std::endl;
 }
+
+int			Server::sendMessage(int fd, std::string msg)
+{
+	int total = 0;
+	int bytesleft = msg.length();
+	int b;
+
+	while (total < (int)msg.length())
+	{
+		b = send(fd, msg.c_str() + total, bytesleft, 0);
+		if (b == -1) break;
+		total += b;
+		bytesleft -= b;
+	}
+	return (b == -1 ? -1 : 0);
+};

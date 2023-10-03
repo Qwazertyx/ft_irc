@@ -97,6 +97,9 @@ re:	fclean
 	@${MAKE} all
 	@printf "\n$(VIOLET)Cleaned and rebuilt everything\n"
 
+t:	all
+	./${NAME} 6667 pass
+
 sus:	all
 	@echo "$(IRED)           ⣠⣤⣤⣤⣤⣤⣶⣦⣤⣄⡀        $(END)"
 	@echo "$(IRED)        ⢀⣴⣿⡿⠛⠉⠙⠛⠛⠛⠛⠻⢿⣿⣷⣤⡀     $(END)"

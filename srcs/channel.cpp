@@ -133,3 +133,15 @@ void	Channel::debug()
 		std::cout << "#client " << i << " " << _clients[i].getNickname() << std::endl;
 	}
 }
+
+std::string		Channel::getAllClients() const
+{
+	std::string		AllUsers(":");
+	std::vector<Client>::const_iterator it = this->_clients.begin();
+	while (it != this->_clients.end())
+	{
+		AllUsers.append("@" + it->getNickname() + " ");
+		it++;
+	}
+	return (AllUsers);
+};

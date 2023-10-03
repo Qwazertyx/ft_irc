@@ -20,7 +20,14 @@ std::string     RPL_ENDOFNAMES(Client &cl, std::string chan_name)
     return ("366 " + cl.getNickname() + " " + chan_name + " :End of /Names list.");
 }
 
-void        join(Channel &chan, Client &cl)
+std::string test(std::string num, std::string nick, std::string msg)
+{
+    if (nick.empty())
+        nick = "*";
+    return (":IRC " + num + " " + nick + " " + msg + "\n");
+}
+
+void        join(Channel &chan, Client &cl, bool alreadyCreated)
 {
     std::string users;
     for(unsigned int i = 0; i < chan.getClients().size(); i++)
@@ -30,11 +37,14 @@ void        join(Channel &chan, Client &cl)
         else
             users += chan.getClients()[i].getNickname() + " ";
     }
-    chan.broadcast(cl.getPrefix() + " Join :" + chan.getName());
-    
-    cl.reply(RPL_TOPIC(cl, chan.getName(), chan.getTopic()));
-	cl.reply(RPL_NAMREPLY(cl, chan.getName(), users));
-	cl.reply(RPL_ENDOFNAMES(cl, chan.getName()));
+    chan.broadcast(cl.getPrefix() + " JOIN :" + chan.getName());
+
+    if (alreadyCreated)
+    {
+        cl.reply(RPL_TOPIC(cl, chan.getName(), chan.getTopic()));
+        cl.reply(RPL_NAMREPLY(cl, chan.getName(), users));
+        cl.reply(RPL_ENDOFNAMES(cl, chan.getName()));
+    }
 }
 
 int         Server::cmdJoin(std::vector<std::string> params, Client &cl)
@@ -88,7 +98,7 @@ int         Server::cmdJoin(std::vector<std::string> params, Client &cl)
             return -1;
         }
         chan->addClient(cl);
-        join(*chan, cl);
+        join(*chan, cl, true);
     }
     catch(const std::exception& e)
     {
@@ -98,7 +108,7 @@ int         Server::cmdJoin(std::vector<std::string> params, Client &cl)
         new_chan.addClient(cl);
         new_chan.setFdOp(cl.getFd());
         _channels.push_back(new_chan);
-        join(new_chan, cl);
+        join(new_chan, cl, false);
     }
     _channels[0].debug();
     return 0;

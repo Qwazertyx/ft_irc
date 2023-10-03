@@ -2,7 +2,7 @@
 
 std::string RPL_PRIVMSG(Client cl, std::string recipient, std::string message)
 {
-    return (":" + cl.getNickname() + " Private Message " + recipient + " :" + message);
+    return (cl.getPrefix() + " PRIVMSG " + recipient + " :" + message);
 }
 
 std::string      getMessage(std::vector<std::string> params)
@@ -63,7 +63,7 @@ int Server::cmdPrvMsg(std::vector<std::string> params, Client &cl)
         return (chanMessage(params, cl));
     try
     {
-        Client  recipient = findClient(params[1]);      
+        Client  recipient = findClient(params[1]);
         std::string  msg = getMessage(params);
         std::cout << "message = " << "[" << msg << "]" << std::endl;
         std::string paquet = RPL_PRIVMSG(cl, recipient.getNickname(), msg);
@@ -71,6 +71,13 @@ int Server::cmdPrvMsg(std::vector<std::string> params, Client &cl)
         paquet += "\r\n";
         if (send(recipient.getFd(), paquet.c_str(), paquet.length(), 0) < 0)
             throw std::out_of_range("error while sendig in private message");
+
+        //Client user = findClient(params[1]);
+        //std::string reply = cl.getPrefix();
+        //reply.append(" PRIVMSG " + user.getNickname() + " :" + getMessage(params) + "\n");
+        //std::cout << "privmsg sent : \"" << reply << '"' << std::endl;
+        //if (sendMessage(user.getFd(), reply) == -1)
+        //    throw std::out_of_range("error while sendig in private message");
     }
     catch(const std::exception& e)
     {
