@@ -41,6 +41,7 @@ int	Server::cmdKick(std::vector<std::string> args, Client &cl)
 	std::vector<std::string> tmp;
 	tmp.push_back("Part");
 	tmp.push_back(args.at(1));
+	args[2].erase(args[2].find(13), 1);
 	cmdPart(tmp, findClient(args.at(2)));
 	return 0;
 }

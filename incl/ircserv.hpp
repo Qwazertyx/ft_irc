@@ -116,6 +116,7 @@ class Channel
 		std::string					getTopic() const;
 		std::string					getPassword() const;
 		std::string				getAllClients() const;
+		std::string				getFlags() const;
 
 
 		void					setTopicOperator(bool topicOperator);
@@ -157,6 +158,8 @@ class Server
 	public:
 		Server(int port, const std::string &password);
 		~Server();
+
+		void					printChannels();
 
 		int									createSocket();
 		void								launch();

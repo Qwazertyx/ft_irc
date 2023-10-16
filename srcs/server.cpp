@@ -156,6 +156,7 @@ std::vector<std::string>	Server::splitCmd(std::string msg)
 	std::stringstream str(msg);
 	std::string tmp;
 	int i = 0;
+
 	if (msg == "\n")
 		return cmd;
 	while (std::getline(str, tmp, '\n')) 
@@ -229,8 +230,9 @@ void	Server::launch()
 					displayClient();
 					break;
 				}
+				else
+					handleMessage(_pollfds[i].fd);
 			}
-			handleMessage(_pollfds[i].fd);
 		}
 	}
 	for (size_t i = 0; i < _pollfds.size(); i++)
@@ -246,7 +248,6 @@ Client		&Server::findClient(int fd)
 	}
 	throw(std::out_of_range("Error while searching for user"));
 }
-
 Client		&Server::findClient(std::string nick)
 {
 	for (unsigned int i = 0; i < _clients.size(); i++)
@@ -293,7 +294,7 @@ std::vector<Channel>::iterator Server::findChannelIt(std::string name)
 			return (ret);
 		ret++;
 	}
-	throw (std::out_of_range("didnt find channel"));
+	throw (std::out_of_range("403 " + name + " :Channel could not be found"));
 }
 
 Channel     &Server::findChannel(std::string name)
@@ -303,7 +304,7 @@ Channel     &Server::findChannel(std::string name)
 		if (_channels[i].getName() == name)
 			return (_channels[i]);
 	}
-	throw (std::out_of_range("didnt find channel"));
+	throw (std::out_of_range("403 " + name + " :Channel could not be found"));
 }
 
 void    Server::eraseClientChannel(Client &cl)

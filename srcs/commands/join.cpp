@@ -29,7 +29,7 @@ std::string test(std::string num, std::string nick, std::string msg)
 
 void        join(Channel &chan, Client &cl, bool alreadyCreated)
 {
-    std::string users;
+    std::string users = "";
     for(unsigned int i = 0; i < chan.getClients().size(); i++)
     {
         if (chan.getClients()[i].getFd() == chan.getFdOp())
@@ -39,10 +39,10 @@ void        join(Channel &chan, Client &cl, bool alreadyCreated)
     }
     chan.broadcast(cl.getPrefix() + " JOIN :" + chan.getName());
 
+    cl.reply(RPL_NAMREPLY(cl, chan.getName(), users));
     if (alreadyCreated)
     {
         cl.reply(RPL_TOPIC(cl, chan.getName(), chan.getTopic()));
-        cl.reply(RPL_NAMREPLY(cl, chan.getName(), users));
         cl.reply(RPL_ENDOFNAMES(cl, chan.getName()));
     }
 }
@@ -51,7 +51,7 @@ int         Server::cmdJoin(std::vector<std::string> params, Client &cl)
 {
     if (cl.getState() != REGISTERED)
     {
-        cl.reply("you need to finalise your registration first");
+        cl.reply("451 : You need to finalise your registration first");
         return -1;
     }
     if (params.size() < 2)
@@ -102,7 +102,6 @@ int         Server::cmdJoin(std::vector<std::string> params, Client &cl)
     }
     catch(const std::exception& e)
     {
-        std::cerr << e.what() << '\n';
         std::cout << "New channel opened : " << name << std::endl;
         Channel new_chan(name);
         new_chan.addClient(cl);

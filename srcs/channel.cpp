@@ -145,3 +145,18 @@ std::string		Channel::getAllClients() const
 	}
 	return (AllUsers);
 };
+
+std::string		Channel::getFlags() const
+{
+	std::string flags = "+";
+
+	if (_limit != 0)
+		flags += "l";
+	if (_password != "")
+		flags += "k";
+	if (_inviteOnly)
+		flags += "i";
+	if (_topicOperator)
+		flags += "t";
+	return flags;
+}

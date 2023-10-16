@@ -76,17 +76,13 @@ int	check_flag(std::vector<std::string> args, Client &cl, Channel &chan)
 {
 	int i = 0;
 	std::string flags[10] = {"+o","-o","+l","-l","+k","-k","+i","-i","+t","-t"};
-
-	if (args.size() < 3)	{
-		cl.reply(errorparam(cl, "Mode"));
-		return -1;
-	}
 	std::string flag = erasebr(args[2]);
 	while (flag != flags[i] && i < 10)
 		++i;
 	std::cout << "IN CHECK_FLAG" << std::endl;
 	switch (i) {
 		case 0:
+
 			return (giveOprivilege(cl, args, chan));
 		case 1:
 			chan.setFdOp(0);
@@ -137,9 +133,18 @@ int	check_flag(std::vector<std::string> args, Client &cl, Channel &chan)
 
 int Server::cmdMode(std::vector<std::string> args, Client &cl) 
 {
+	if (args.size() < 3 || args[1] == "")
+	{
+		cl.reply(errorparam(cl, "Mode"));
+		return -1;
+	}
 	std::cout << "in Mode->args = " << std::endl;
+	if (args[1].find(13) != std::string::npos)
+		args[1].erase(args[1].find(13));
 	for (unsigned int i = 0; i < args.size(); i++)
-		std::cout << args[i] << std::endl ;
+	{
+		std::cout << "|" << args[i] << "|" << std::endl ;
+	}
 	std::cout << std::endl;
 
 	if (args.size() < 2)
