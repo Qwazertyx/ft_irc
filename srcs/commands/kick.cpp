@@ -40,7 +40,7 @@ int	Server::cmdKick(std::vector<std::string> args, Client &cl)
 	}
 	if (is_client_not_in_Channel(findChannel(args.at(1)), erasebr(args.at(2))) == false)
 	{
-		cl.reply("441 " + cl.getNickname() + " " + erasebr(args.at(2)) + " " + args.at(1) + " :They aren't on that channel");
+		cl.reply("441 " + cl.getNickname() + " " + args.at(1) + " " + erasebr(args.at(2)) + " :They aren't on that channel");
 		return -1;
 	}
 	std::vector<std::string> tmp;

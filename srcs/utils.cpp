@@ -27,7 +27,7 @@ std::string  errornotop(Client cl, std::string channel)
 std::string  RPL_TOPIC(Client cl, std::string channel, std::string topic) 
 {
 	(void) cl;
-	return ("332 " + channel + " :" + topic);
+	return ("332 " + cl.getNickname() + " " + channel + " :" + topic);
 }
 
 bool	isClientInChannel(Channel &chan, int fd)

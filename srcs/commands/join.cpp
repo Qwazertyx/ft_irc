@@ -63,7 +63,7 @@ int         Server::cmdJoin(std::vector<std::string> params, Client &cl)
     std::cout << "name = " << name<< std::endl;
     if (!name[0] || name[0] != '#')
     {
-        cl.reply("Error : Channel must start with '#'");
+        cl.reply("403 " + name +" :Channel must start with '#'");
         return -1;
     }
     try

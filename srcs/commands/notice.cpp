@@ -75,7 +75,7 @@ int Server::cmdNotice(std::vector<std::string> params, Client &cl)
     }
     catch(const std::exception& e)
     {
-        cl.reply(e.what());
+        cl.reply("401 " + cl.getNickname() + " :User could not be found");
         std::cerr << e.what() << '\n';
     }
     return 0;

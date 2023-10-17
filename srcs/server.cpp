@@ -256,7 +256,7 @@ Client		&Server::findClient(std::string nick)
 		if (_clients[i].getNickname() == nick)
 			return (_clients[i]);
 	}
-	throw(std::out_of_range("Error while searching for user"));
+	throw(std::out_of_range("401 " + nick + " :User could not be found"));
 }
 
 std::vector<Client>::iterator	Server::findClientIt(std::string nick)

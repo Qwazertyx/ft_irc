@@ -17,16 +17,16 @@ int	Server::cmdNames(std::vector<std::string> args, Client &cl)
 	std::vector<std::string> channel_name = split(args.at(1), ",");
 	if (args.size() > 1)
 	{
-		size_t i = 0;
-		for (; i < channel_name.size(); i++)
+		for (size_t i = 0; i < channel_name.size(); i++)
 		{
 			for (size_t j = 0; j < _channels.size(); j++)
 			{
 				if (erasebr(channel_name.at(i)) == _channels.at(j).getName())
 				{
 					std::string str;
-					size_t x = 0;
-					for (; x < _channels.at(j).getClients().size() - 1; x++)
+					size_t x;
+					_channels[i].updateClients(*this);
+					for (x = 0; x < _channels.at(j).getClients().size() - 1; x++)
 					{
 						if (_channels.at(i).getClients().at(x).getFd() == _channels.at(i).getFdOp())
 							str += "@" + _channels.at(j).getClients().at(x).getNickname() + " ";

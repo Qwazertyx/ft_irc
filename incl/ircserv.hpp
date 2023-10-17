@@ -42,6 +42,7 @@ enum State
 };
 
 class Channel;
+class Server;
 
 // Client Class
 
@@ -127,6 +128,7 @@ class Channel
 		void					setLimit(size_t limit);
 
 	
+		void					updateClients(Server serv);
 		void					printInvited();
 		int						isInvited(Client &cl);
 		int						isInside(Client &cl);

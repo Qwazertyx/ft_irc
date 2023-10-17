@@ -126,6 +126,14 @@ void	Channel::broadcast(std::string message, Client &cl)
 	}
 }
 
+void Channel::updateClients(Server serv)
+{
+	for (size_t i = 0; i < _clients.size(); i++)
+	{
+		_clients[i] = serv.findClient(_clients[i].getFd());
+	}
+}
+
 void	Channel::debug()
 {
 	for (unsigned int i = 0; i < _clients.size(); i++)
