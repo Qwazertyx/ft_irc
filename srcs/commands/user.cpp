@@ -1,4 +1,5 @@
 #include "../../incl/ircserv.hpp"
+#include <cstdio>
 
 int Server::cmdUser(std::vector<std::string> args, Client &cl) 
 {
@@ -21,16 +22,18 @@ int Server::cmdUser(std::vector<std::string> args, Client &cl)
 	{
 		if (args[1].find(":") != std::string::npos || args[2].find(":") != std::string::npos || args[3].find(":") != std::string::npos)
 		{
+			std::cerr << "ici\n";
 			cl.reply("497 " + cl.getNickname() + " " + cmd + " :Wrong parameters");
 			return -1;
 		}
-		if (args[2].size() > 1 || !(args[2][0] >= '0' && args[2][0] <= '9' && args[3][0] != '*'))
+		if (args[2].size() > 1 || (!(args[2][0] >= '0' && args[2][0] <= '9') && args[3][0] != '*'))
 		{
 			cl.reply("497 " + cl.getNickname() + " " + cmd + " :Wrong parameters");
 			return -1;
 		}
-		if (args[3].size() > 1 || !(args[3][0] >= '0' && args[3][0] <= '9' && args[3][0] != '*'))
+		if (args[3].size() > 1 || args[3][0] != '*')
 		{
+			std::cerr << "non la\n";
 			cl.reply("497 " + cl.getNickname() + " " + cmd + " :Wrong parameters");
 			return -1;
 		}
