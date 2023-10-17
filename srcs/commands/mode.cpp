@@ -143,14 +143,8 @@ int Server::cmdMode(std::vector<std::string> args, Client &cl)
 		cl.reply(errorparam(cl, "Mode"));
 		return -1;
 	}
-	std::cout << "in Mode->args = " << std::endl;
 	if (args[1].find(13) != std::string::npos)
 		args[1].erase(args[1].find(13));
-	for (unsigned int i = 0; i < args.size(); i++)
-	{
-		std::cout << "|" << args[i] << "|" << std::endl ;
-	}
-	std::cout << std::endl;
 
 	if (args.size() < 2)
 	{
