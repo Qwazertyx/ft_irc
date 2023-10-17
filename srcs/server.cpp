@@ -174,6 +174,7 @@ void	Server::parseCmd(std::string str, Client &cl)
 	std::stringstream ss(str);
 	std::getline(ss, tmp, ' ');
 
+	tmp = (erasebr(tmp));
 	args.push_back(tmp);
   	std::cout << "Parse command : [" << tmp << "]" << std::endl;
 

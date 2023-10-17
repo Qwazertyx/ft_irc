@@ -6,6 +6,11 @@
 
 int Server::cmdInvite(std::vector<std::string> params, Client &cl)
 {
+    if (cl.getState() != REGISTERED)
+    {
+        cl.reply("451 :" + cl.getNickname() + " You need to register first");
+        return -1;
+    }
 	if (params.size() < 3)
 	{
 		cl.reply(errorparam(cl, "Invite"));

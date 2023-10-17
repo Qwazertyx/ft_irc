@@ -133,6 +133,11 @@ int	check_flag(std::vector<std::string> args, Client &cl, Channel &chan)
 
 int Server::cmdMode(std::vector<std::string> args, Client &cl) 
 {
+	if (cl.getState() != REGISTERED)
+    {
+        cl.reply("451 :" + cl.getNickname() + " You need to register first");
+        return -1;
+    }
 	if (args.size() < 3 || args[1] == "")
 	{
 		cl.reply(errorparam(cl, "Mode"));

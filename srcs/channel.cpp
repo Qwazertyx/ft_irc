@@ -104,7 +104,7 @@ void    Channel::eraseClient(Client &cl)
 void	Channel::broadcast(std::string message)
 {
 	message += "\r\n";
-	std::cout << "----> " << message << std::endl;
+	std::cout << "----> \"" << message << '"' << std::endl;
 	for (unsigned int i = 0; i < _clients.size(); i++)
 	{
 		if (send(_clients[i].getFd(), message.c_str(), message.length(), 0) < 0)

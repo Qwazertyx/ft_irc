@@ -52,7 +52,7 @@ int Server::cmdNotice(std::vector<std::string> params, Client &cl)
     std::cout << "ENTER IN NOTICE" << std::endl;
     if (cl.getState() != REGISTERED)
     {
-        cl.reply("you need to register first (private message)");
+        cl.reply("451 :" + cl.getNickname() + " You need to register first");
         return -1;
     }
     if (params.size() < 3)
