@@ -92,9 +92,10 @@ void    Channel::eraseClient(Client &cl)
 		std::cout << it->getNickname() << "==" << cl.getNickname() << std::endl;
 		if (it->getFd() == cl.getFd())
 		{
-			std::cout << "erasing client" << std::endl;
-			broadcast(RPL_PART(cl.getPrefix(), _name));
+			std::cout << "erasing clients" << std::endl;
+			std::string prefix = cl.getPrefix();
 			_clients.erase(it);
+			broadcast(RPL_PART(prefix, _name));
 			return ;
 		}
 	}
