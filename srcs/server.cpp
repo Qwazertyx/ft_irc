@@ -314,8 +314,6 @@ Channel     &Server::findChannel(std::string name)
 
 void    Server::eraseClientChannel(Client &cl)
 {
-	std::cout << "JE SUIS ENCORE EN VIE\n";
-	(void) cl;
 	for (unsigned int i = 0; i < _channels.size(); i++)
 	{
 		_channels[i].deleteClient(cl);
