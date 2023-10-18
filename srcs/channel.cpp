@@ -94,8 +94,26 @@ void    Channel::eraseClient(Client &cl)
 		{
 			std::cout << "erasing clients" << std::endl;
 			std::string prefix = cl.getPrefix();
-			_clients.erase(it);
 			broadcast(RPL_PART(prefix, _name));
+			_clients.erase(it);
+			return ;
+		}
+	}
+	std::cout << "not really erasing client" << _clients.size() << std::endl;
+}
+
+void    Channel::deleteClient(Client &cl)
+{
+	std::vector<Client>::iterator   it;
+	for(it = _clients.begin(); it != _clients.end(); it++)
+	{
+		std::cout << it->getNickname() << "==" << cl.getNickname() << std::endl;
+		if (it->getFd() == cl.getFd())
+		{
+			std::cout << "erasing clients" << std::endl;
+			std::string prefix = cl.getPrefix();
+			broadcast(RPL_PART(prefix, _name), cl);
+			_clients.erase(it);
 			return ;
 		}
 	}
@@ -108,6 +126,7 @@ void	Channel::broadcast(std::string message)
 	std::cout << "----> \"" << message << '"' << std::endl;
 	for (unsigned int i = 0; i < _clients.size(); i++)
 	{
+		std::cerr << _clients[i].getFd() << std::endl;
 		if (send(_clients[i].getFd(), message.c_str(), message.length(), 0) < 0)
 			throw std::out_of_range("error while broadcasting");
 	}

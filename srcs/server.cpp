@@ -217,13 +217,17 @@ void	Server::launch()
 	std::cout << "Server IRC Launched!" << std::endl;
 	while (g_interrupt == false)
 	{
-		if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 0)
-			break ;
 		for (unsigned int i = 0; i < _pollfds.size(); i++)
 		{
+			if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 0)
+			{
+				for (size_t i = 0; i < _pollfds.size(); i++)
+					close(_pollfds[i].fd);
+				return ;
+			}
 			if (_pollfds[i].revents == 0)
 				continue ;
-			if ((_pollfds[i].revents  & POLLIN ) == POLLIN)
+			if ((_pollfds[i].revents & POLLIN ) == POLLIN)
 			{
 				if (_pollfds[i].fd == _sock)
 				{
@@ -310,9 +314,11 @@ Channel     &Server::findChannel(std::string name)
 
 void    Server::eraseClientChannel(Client &cl)
 {
+	std::cout << "JE SUIS ENCORE EN VIE\n";
+	(void) cl;
 	for (unsigned int i = 0; i < _channels.size(); i++)
 	{
-		_channels[i].eraseClient(cl);
+		_channels[i].deleteClient(cl);
 	}
 	std::vector<Channel>::iterator   it = _channels.begin();
 	while (it != _channels.end())

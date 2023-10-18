@@ -136,6 +136,7 @@ class Channel
 		void					addClient(Client &client);
 		void					addInvited(Client &cl);
 		void					eraseClient(Client &cl);
+		void					deleteClient(Client &cl);
 		void					broadcast(std::string message);
 		void					broadcast(std::string message, Client &cl);
 		void					debug();
