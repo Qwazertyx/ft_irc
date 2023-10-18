@@ -145,7 +145,6 @@ int Server::cmdMode(std::vector<std::string> args, Client &cl)
 	}
 	if (args[1].find(13) != std::string::npos)
 		args[1].erase(args[1].find(13));
-
 	if (args.size() < 2)
 	{
 		cl.reply(errorparam(cl, "Mode"));

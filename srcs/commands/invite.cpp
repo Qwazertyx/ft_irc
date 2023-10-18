@@ -32,6 +32,8 @@ int Server::cmdInvite(std::vector<std::string> params, Client &cl)
             throw std::runtime_error("443 :" + params[2] + " " + params[1] + " :User is already invited");
         if (!inviteChan->isInside(invitedCl))
             throw std::runtime_error("443 " + cl.getNickname() + " : User is already in the channel");
+        if (cl.getFd() != inviteChan->getFdOp())
+            throw std::runtime_error("482 " + cl.getNickname() + " " + params[1] + " :You're not channel operator");
         inviteChan->addInvited(invitedCl);
         cl.reply("341  :invite " + params[2] + " " + params[1]);
         //invitedCl.reply("345 :You got invited on " + params[1] + " by " + cl.getNickname());
